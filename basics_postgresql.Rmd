@@ -1,0 +1,83 @@
+---
+jupyter:
+  jupytext:
+    text_representation:
+      extension: .Rmd
+      format_name: rmarkdown
+      format_version: '1.1'
+      jupytext_version: 1.1.3
+  kernelspec:
+    display_name: Python 3
+    language: python
+    name: python3
+---
+
+```{python}
+# To interact with postqre, the psycopg2 library is used
+import psycopg2
+```
+
+```{python}
+# To create a connection with the db, first you should be shure that the server is active and listening
+# !pg_lsclusters 10 main start
+
+```
+
+```{python}
+# Then you have to create a connection object to the server
+conn = psycopg2.connect(
+user="dum",
+dbname="postgres",
+host="/var/run/postgresql"
+)
+```
+
+```{python}
+# To perform queries or command to the db, you need a cursor
+cur = conn.cursor()
+```
+
+```{python}
+# Postgre automatically initiates a new transaction, so it's necessary to set the autocommit property of the connection to True
+conn.commit()
+conn.autocommit = True
+```
+
+```{python}
+# To create a new database, use the following syntax
+cur.execute('''
+    create database basic_postgre owner dum
+''')
+```
+
+```{python}
+# To create tables, the syntax is the same that the one on SQLite
+cur.execute('''
+    create table data_test(
+        id integer primary key,
+        name text
+    )
+''')
+```
+
+```{python}
+# Adding values to the recently created table
+cur.execute('''
+    insert into data_test
+    values
+        (1, 'Jose');
+
+''')
+```
+
+```{python}
+# To run queries, you have to use the methods fetchall or fetchone of the conn
+
+cur.execute('''
+    select *
+    from data_test
+''')
+
+cur.fetchall()
+
+```
