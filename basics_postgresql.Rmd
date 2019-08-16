@@ -25,6 +25,7 @@ import psycopg2
 
 ```{python}
 # Then you have to create a connection object to the server
+# At this point, you are also setting the database that you will be using
 conn = psycopg2.connect(
 user="dum",
 dbname="postgres",
@@ -71,7 +72,7 @@ cur.execute('''
 ```
 
 ```{python}
-# To run queries, you have to use the methods fetchall or fetchone of the conn
+# To run queries, you have to use the methods fetchall or fetchone of the cursor
 
 cur.execute('''
     select *
@@ -79,5 +80,9 @@ cur.execute('''
 ''')
 
 cur.fetchall()
+
+```
+
+```{python}
 
 ```
